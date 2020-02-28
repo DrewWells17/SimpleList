@@ -6,6 +6,7 @@
  */
 
 package cse360assign2;
+import java.lang.Math;
 
 /**
  * This is a SimpleList class that holds an integer array of size 10 and 
@@ -39,20 +40,32 @@ public class SimpleList
 	
 	public void add(int newInt)
 	{
-		if (count == 0)
+		if(count == 0)
 		{
 			list[0] = newInt;
+			count++;
 		}
-		else 
+		else if (count == list.length)
+		{
+			count++;
+			double num1 = count;
+			num1 = 1.5 * num1;
+			num1 = Math.ceil(num1);
+			int num2 = (int)num1;
+			int temp[] = new int[num2];
+			for(int index = (count-1); index > 0; index--)
+			{
+				temp[index] = list[index];
+			}
+			temp[0] = newInt;
+		}
+		else
 		{
 			for(int index = (count-1); index > 0; index--)
 			{
 				list[index] = list[index - 1];
 			}
 			list[0] = newInt;
-		}
-		if (count < 10)
-		{
 			count++;
 		}
 	}
@@ -66,6 +79,7 @@ public class SimpleList
 	
 	public void remove(int intToRemove)
 	{
+
 		for(int index1 = (count - 1); index1 > 0; index1--)
 		{
 			if(list[index1] == intToRemove)
@@ -77,6 +91,20 @@ public class SimpleList
 				}
 				count--;
 			}
+		}
+		
+		double percentMiss = (1 - (count / list.length));
+		if(percentMiss > .25)
+		{
+			double num1 = .75 * list.length;
+			num1 = Math.floor(num1);
+			int num2 = (int)num1;
+			int temp[] = new int[num2];
+			for(int index = (count-1); index > 0; index--)
+			{
+				temp[index] = list[index];
+			}
+			list = temp;
 		}
 		
 	}
@@ -136,6 +164,36 @@ public class SimpleList
 			}
 		}
 		return indexToReturn;
+	}
+	
+	public void append(int x)
+	{
+		if(count == list.length)
+		{
+			double num1 = count;
+			num1 = 1.5 * num1;
+			num1 = Math.ceil(num1);
+			int num2 = (int)num1;
+			int temp[] = new int[num2];
+			for(int index = (count - 1); index > 0; index--)
+			{
+				temp[index] = list[index];
+			}
+			list = temp;
+		}
+		
+		list[count] = x;
+		count++;
+	}
+	
+	public int first()
+	{
+		return list[0];
+	}
+	
+	public int size()
+	{
+		return (list.length - count);
 	}
 }
 
